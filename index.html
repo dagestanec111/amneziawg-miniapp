@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#10091e">
+<title>AmneziaWG BOT</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root {
+  --bg:#10091e;
+  --card:#1d1230;
+  --card2:#28183e;
+  --purple:#9b5cff;
+  --pink:#d16bff;
+  --text:#fff;
+  --muted:#a99bbd;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  padding:0 16px 105px;
+  background:radial-gradient(ellipse at 50% -15%,#49216e 0%,#10091e 55%);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+}
+header {
+  padding:28px 4px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo { font-size:20px;font-weight:900;letter-spacing:.5px; }
+.logo span { color:#c18aff; }
+.avatar {
+  width:43px;height:43px;border-radius:15px;
+  background:linear-gradient(135deg,#a34cff,#5722a0);
+  display:grid;place-items:center;font-size:21px;
+  box-shadow:0 0 20px #a34cff55;
+}
+.welcome {
+  padding:22px;
+  border-radius:23px;
+  background:linear-gradient(135deg,#45216b,#211333);
+  border:1px solid #a66aff44;
+  position:relative;
+  overflow:hidden;
+}
+.welcome:after {
+  content:"✦";
+  position:absolute;right:20px;top:5px;
+  font-size:100px;color:#ffffff12;
+}
+.eyebrow { color:#d4aaff;font-size:12px;letter-spacing:2px; }
+h1 { font-size:27px;margin:10px 0 8px; }
+.welcome p { color:#d0c1e0;font-size:13px;line-height:1.5;margin:0; }
+.section-title {
+  font-size:17px;font-weight:800;margin:26px 2px 14px;
+}
+.grid {
+  display:grid;grid-template-columns:1fr 1fr;gap:11px;
+}
+.tile {
+  background:linear-gradient(145deg,#28183e,#1b112b);
+  border:1px solid #ffffff12;
+  border-radius:18px;
+  min-height:112px;
+  padding:17px 14px;
+  text-align:left;color:white;
+  cursor:pointer;
+  transition:.15s;
+}
+.tile:active { transform:scale(.97); }
+.tile .ico { font-size:25px;margin-bottom:12px; }
+.tile strong { display:block;font-size:13px; }
+.tile small { display:block;color:var(--muted);font-size:11px;margin-top:5px; }
+.balance {
+  margin-top:20px;padding:18px;
+  border-radius:18px;background:#211532;
+  border:1px solid #ffffff12;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.balance small { color:var(--muted); }
+.balance strong { font-size:21px; }
+.page { display:none; }
+.page.active { display:block; }
+.back {
+  border:0;background:none;color:#c99aff;
+  font-size:14px;padding:12px 0;cursor:pointer;
+}
+.plan {
+  background:linear-gradient(145deg,#28183e,#1b112b);
+  border:1px solid #ffffff18;
+  border-radius:19px;padding:18px;margin-bottom:12px;
+}
+.plan h3 { margin:0 0 7px;font-size:17px; }
+.plan p { color:var(--muted);font-size:12px;margin:0 0 15px; }
+.price-row { display:flex;justify-content:space-between;align-items:center; }
+.price { font-size:23px;font-weight:900;color:#d3a4ff; }
+.action {
+  border:0;border-radius:13px;padding:12px 17px;
+  color:white;font-weight:800;font-size:13px;
+  background:linear-gradient(100deg,#873bdb,#b35cff);
+  cursor:pointer;
+}
+.action:active { opacity:.8; }
+.info {
+  padding:19px;background:#211532;
+  border:1px solid #ffffff12;border-radius:18px;
+  color:#ded2ed;font-size:14px;line-height:1.7;
+}
+.link {
+  display:block;text-decoration:none;text-align:center;
+  color:white;background:#28183e;border:1px solid #ffffff18;
+  padding:16px;border-radius:14px;margin:10px 0;
+}
+.bottom {
+  position:fixed;bottom:0;left:0;right:0;
+  padding:12px 18px calc(12px + env(safe-area-inset-bottom));
+  background:#160d23ee;backdrop-filter:blur(15px);
+  border-top:1px solid #ffffff12;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+}
+.nav {
+  background:none;border:0;color:#a99bbd;
+  font-size:11px;padding:5px 0;cursor:pointer;
+}
+.nav span { display:block;font-size:20px;margin-bottom:4px; }
+.nav.selected { color:#d2a1ff; }
+.notice {
+  position:fixed;bottom:90px;left:20px;right:20px;
+  padding:14px;border-radius:13px;background:#392052;
+  text-align:center;font-size:13px;display:none;
+  box-shadow:0 5px 30px #0008;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">AMNEZIA<span>WG</span> BOT</div>
+  <div class="avatar">✦</div>
+</header>
+
+<main>
+<section id="home" class="page active">
+  <div class="welcome">
+    <div class="eyebrow">ТВОЁ ПРОСТРАНСТВО</div>
+    <h1>Добро пожаловать!</h1>
+    <p>Управляй доступом, конфигурациями и подписками в одном месте.</p>
+  </div>
+
+  <div class="section-title">Главное меню</div>
+  <div class="grid">
+    <button class="tile" onclick="openPage('buy')">
+      <div class="ico">🛒</div>
+      <strong>Купить доступ</strong>
+      <small>Выбрать тариф</small>
+    </button>
+    <button class="tile" onclick="openPage('configs')">
+      <div class="ico">📁</div>
+      <strong>Мои конфигурации</strong>
+      <small>Твои подключения</small>
+    </button>
+    <button class="tile" onclick="openPage('apps')">
+      <div class="ico">📲</div>
+      <strong>Скачать приложение</strong>
+      <small>Android и iPhone</small>
+    </button>
+    <button class="tile" onclick="openPage('guide')">
+      <div class="ico">📖</div>
+      <strong>Инструкция</strong>
+      <small>Помощь с настройкой</small>
+    </button>
+    <button class="tile" onclick="openPage('support')">
+      <div class="ico">🎧</div>
+      <strong>Поддержка</strong>
+      <small>Мы поможем</small>
+    </button>
+    <button class="tile" onclick="openPage('referral')">
+      <div class="ico">🎁</div>
+      <strong>Пригласить друга</strong>
+      <small>Бонус 50 ₽</small>
+    </button>
+  </div>
+
+  <div class="balance" onclick="openPage('balance')">
+    <div><small>ТВОЙ БАЛАНС</small><br><strong id="balance">0 ₽</strong></div>
+    <div style="font-size:25px">💰</div>
+  </div>
+</section>
+
+<section id="buy" class="page">
+  <button class="back" onclick="openPage('home')">← Главное меню</button>
+  <div class="section-title">Выбери свой тариф</div>
+  <div id="plans"></div>
+</section>
+
+<section id="configs" class="page">
+  <button class="back" onclick="openPage('home')">← Главное меню</button>
+  <div class="section-title">📁 Мои конфигурации</div>
+  <div class="info">Здесь будут отображаться твои конфигурации после оформления и подтверждения заказа администратором.</div>
+</section>
+
+<section id="apps" class="page">
+  <button class="back" onclick="openPage('home')">← Главное меню</button>
+  <div class="section-title">📲 Скачать приложение</div>
+  <div class="info">Выбери магазин для своего устройства.</div>
+  <a class="link" href="https://play.google.com/store/apps/details?id=org.amnezia.awg">🤖 Android — Google Play</a>
+  <a class="link" href="https://apps.apple.com/ru/app/amneziawg/id6478942365">🍎 iPhone — App Store</a>
+</section>
+
+<section id="guide" class="page">
+  <button class="back" onclick="openPage('home')">← Главное меню</button>
+  <div class="section-title">📖 Инструкция</div>
+  <div class="info">
+    <b>Как начать пользоваться:</b><br><br>
+    1. Установи AmneziaWG из официального магазина.<br><br>
+    2. Выбери тариф и оформи заказ.<br><br>
+    3. После подтверждения получи конфигурацию от администратора.<br><br>
+    4. Импортируй файл в приложение.
+  </div>
+</section>
+
+<section id="support" class="page">
+  <button class="back" onclick="openPage('home')">← Главное меню</button>
+  <div class="section-title">🎧 Поддержка</div>
+  <div class="info">Возник вопрос или нужна помощь? Напиши нам через Telegram-бота. Сообщение попадёт администратору.</div>
+  <button class="action" style="width:100%;margin-top:15px" onclick="notify('Поддержка будет подключена к боту на следующем этапе.')">Написать в поддержку</button>
+</section>
+
+<section id="referral" class="page">
+  <button class="back" onclick="openPage('home')">← Главное меню</button>
+  <div class="section-title">🎁 Пригласи друга</div>
+  <div class="info">
+    Получай <b style="color:#d3a4ff">50 ₽</b> на баланс за каждого приглашённого друга после его первой подтверждённой покупки.<br><br>
+    Твоя реферальная ссылка появится после подключения приложения к боту.
+  </div>
+  <button class="action" style="width:100%;margin-top:15px" onclick="notify('Реферальная ссылка появится после подключения к боту.')">Моя ссылка</button>
+</section>
+
+<section id="balance" class="page">
+  <button class="back" onclick="openPage('home')">← Главное меню</button>
+  <div class="section-title">💰 Мой баланс</div>
+  <div class="info">Текущий баланс: <b>0 ₽</b><br><br>Реферальные бонусы начисляются после первой подтверждённой покупки приглашённого друга.</div>
+</section>
+</main>
+
+<nav class="bottom">
+  <button class="nav selected" onclick="openPage('home',this)"><span>⌂</span>Главная</button>
+  <button class="nav" onclick="openPage('buy',this)"><span>🛒</span>Покупка</button>
+  <button class="nav" onclick="openPage('configs',this)"><span>📁</span>Конфигурации</button>
+</nav>
+
+<div class="notice" id="notice"></div>
+
+<script>
+const tg = window.Telegram?.WebApp;
+if (tg) {
+  tg.ready();
+  tg.expand();
+  tg.setHeaderColor('#10091e');
+  tg.setBackgroundColor('#10091e');
+}
+
+const plans = [
+  {name:'1 месяц',days:30,price:100},
+  {name:'3 месяца',days:90,price:270},
+  {name:'6 месяцев',days:180,price:500},
+  {name:'12 месяцев',days:365,price:900}
+];
+
+document.getElementById('plans').innerHTML = plans.map(p => `
+  <div class="plan">
+    <h3>${p.name}</h3>
+    <p>${p.days} дней доступа</p>
+    <div class="price-row">
+      <div class="price">${p.price} ₽</div>
+      <button class="action" onclick="order('${p.name}')">Выбрать</button>
+    </div>
+  </div>
+`).join('');
+
+function openPage(id, button) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav').forEach(n => n.classList.remove('selected'));
+  if (button) button.classList.add('selected');
+  if (tg?.BackButton) {
+    if (id === 'home') tg.BackButton.hide();
+    else {
+      tg.BackButton.show();
+      tg.BackButton.onClick(() => openPage('home'));
+    }
+  }
+  window.scrollTo(0,0);
+}
+
+function notify(message) {
+  const el = document.getElementById('notice');
+  el.textContent = message;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 2800);
+}
+
+function order(name) {
+  notify('Выбран тариф «' + name + '». Подключение оформления заказа будет следующим этапом.');
+}
+
+</script>
+</body>
+</html>
