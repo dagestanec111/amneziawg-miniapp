@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -7,6 +7,7 @@
 <meta name="theme-color" content="#10091e">
 <title>AmneziaWG BOT</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 <style>
 :root {
   --bg:#10091e;
@@ -106,6 +107,7 @@ h1 { font-size:27px;margin:10px 0 8px; }
   cursor:pointer;
 }
 .action:active { opacity:.8; }
+.action:disabled { opacity:.5;cursor:wait; }
 .info {
   padding:19px;background:#211532;
   border:1px solid #ffffff12;border-radius:18px;
@@ -134,9 +136,11 @@ h1 { font-size:27px;margin:10px 0 8px; }
   padding:14px;border-radius:13px;background:#392052;
   text-align:center;font-size:13px;display:none;
   box-shadow:0 5px 30px #0008;
+  z-index:100;
 }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -145,6 +149,7 @@ h1 { font-size:27px;margin:10px 0 8px; }
 </header>
 
 <main>
+
 <section id="home" class="page active">
   <div class="welcome">
     <div class="eyebrow">ТВОЁ ПРОСТРАНСТВО</div>
@@ -153,32 +158,38 @@ h1 { font-size:27px;margin:10px 0 8px; }
   </div>
 
   <div class="section-title">Главное меню</div>
+
   <div class="grid">
     <button class="tile" onclick="openPage('buy')">
       <div class="ico">🛒</div>
       <strong>Купить доступ</strong>
       <small>Выбрать тариф</small>
     </button>
+
     <button class="tile" onclick="openPage('configs')">
       <div class="ico">📁</div>
       <strong>Мои конфигурации</strong>
       <small>Твои подключения</small>
     </button>
+
     <button class="tile" onclick="openPage('apps')">
       <div class="ico">📲</div>
       <strong>Скачать приложение</strong>
       <small>Android и iPhone</small>
     </button>
+
     <button class="tile" onclick="openPage('guide')">
       <div class="ico">📖</div>
       <strong>Инструкция</strong>
       <small>Помощь с настройкой</small>
     </button>
+
     <button class="tile" onclick="openPage('support')">
       <div class="ico">🎧</div>
       <strong>Поддержка</strong>
       <small>Мы поможем</small>
     </button>
+
     <button class="tile" onclick="openPage('referral')">
       <div class="ico">🎁</div>
       <strong>Пригласить друга</strong>
@@ -187,7 +198,10 @@ h1 { font-size:27px;margin:10px 0 8px; }
   </div>
 
   <div class="balance" onclick="openPage('balance')">
-    <div><small>ТВОЙ БАЛАНС</small><br><strong id="balance">0 ₽</strong></div>
+    <div>
+      <small>ТВОЙ БАЛАНС</small><br>
+      <strong id="balance">0 ₽</strong>
+    </div>
     <div style="font-size:25px">💰</div>
   </div>
 </section>
@@ -201,7 +215,9 @@ h1 { font-size:27px;margin:10px 0 8px; }
 <section id="configs" class="page">
   <button class="back" onclick="openPage('home')">← Главное меню</button>
   <div class="section-title">📁 Мои конфигурации</div>
-  <div class="info">Здесь будут отображаться твои конфигурации после оформления и подтверждения заказа администратором.</div>
+  <div class="info">
+    Здесь будут отображаться твои конфигурации после оформления и подтверждения заказа администратором.
+  </div>
 </section>
 
 <section id="apps" class="page">
@@ -227,8 +243,13 @@ h1 { font-size:27px;margin:10px 0 8px; }
 <section id="support" class="page">
   <button class="back" onclick="openPage('home')">← Главное меню</button>
   <div class="section-title">🎧 Поддержка</div>
-  <div class="info">Возник вопрос или нужна помощь? Напиши нам через Telegram-бота. Сообщение попадёт администратору.</div>
-  <button class="action" style="width:100%;margin-top:15px" onclick="notify('Поддержка будет подключена к боту на следующем этапе.')">Написать в поддержку</button>
+  <div class="info">
+    Возник вопрос или нужна помощь? Напиши нам через Telegram-бота. Сообщение попадёт администратору.
+  </div>
+  <button class="action" style="width:100%;margin-top:15px"
+    onclick="notify('Поддержка будет подключена к боту на следующем этапе.')">
+    Написать в поддержку
+  </button>
 </section>
 
 <section id="referral" class="page">
@@ -238,26 +259,40 @@ h1 { font-size:27px;margin:10px 0 8px; }
     Получай <b style="color:#d3a4ff">50 ₽</b> на баланс за каждого приглашённого друга после его первой подтверждённой покупки.<br><br>
     Твоя реферальная ссылка появится после подключения приложения к боту.
   </div>
-  <button class="action" style="width:100%;margin-top:15px" onclick="notify('Реферальная ссылка появится после подключения к боту.')">Моя ссылка</button>
+  <button class="action" style="width:100%;margin-top:15px"
+    onclick="notify('Реферальная ссылка появится после подключения к боту.')">
+    Моя ссылка
+  </button>
 </section>
 
-<section id="balance" class="page">
+<section id="balancePage" class="page">
   <button class="back" onclick="openPage('home')">← Главное меню</button>
   <div class="section-title">💰 Мой баланс</div>
-  <div class="info">Текущий баланс: <b>0 ₽</b><br><br>Реферальные бонусы начисляются после первой подтверждённой покупки приглашённого друга.</div>
+  <div class="info">
+    Текущий баланс: <b id="balanceDetails">0 ₽</b><br><br>
+    Реферальные бонусы начисляются после первой подтверждённой покупки приглашённого друга.
+  </div>
 </section>
+
 </main>
 
 <nav class="bottom">
-  <button class="nav selected" onclick="openPage('home',this)"><span>⌂</span>Главная</button>
-  <button class="nav" onclick="openPage('buy',this)"><span>🛒</span>Покупка</button>
-  <button class="nav" onclick="openPage('configs',this)"><span>📁</span>Конфигурации</button>
+  <button class="nav selected" onclick="openPage('home',this)">
+    <span>⌂</span>Главная
+  </button>
+  <button class="nav" onclick="openPage('buy',this)">
+    <span>🛒</span>Покупка
+  </button>
+  <button class="nav" onclick="openPage('configs',this)">
+    <span>📁</span>Конфигурации
+  </button>
 </nav>
 
 <div class="notice" id="notice"></div>
 
 <script>
 const tg = window.Telegram?.WebApp;
+
 if (tg) {
   tg.ready();
   tg.expand();
@@ -265,11 +300,14 @@ if (tg) {
   tg.setBackgroundColor('#10091e');
 }
 
+// Адрес API. При перезапуске Quick Tunnel адрес может измениться.
+const API_BASE_URL = 'https://whereas-defendant-sanyo-observation.trycloudflare.com';
+
 const plans = [
-  {name:'1 месяц',days:30,price:100},
-  {name:'3 месяца',days:90,price:270},
-  {name:'6 месяцев',days:180,price:500},
-  {name:'12 месяцев',days:365,price:900}
+  {key:'m1',name:'1 месяц',days:30,price:100},
+  {key:'m3',name:'3 месяца',days:90,price:270},
+  {key:'m6',name:'6 месяцев',days:180,price:500},
+  {key:'y1',name:'12 месяцев',days:365,price:900}
 ];
 
 document.getElementById('plans').innerHTML = plans.map(p => `
@@ -278,37 +316,119 @@ document.getElementById('plans').innerHTML = plans.map(p => `
     <p>${p.days} дней доступа</p>
     <div class="price-row">
       <div class="price">${p.price} ₽</div>
-      <button class="action" onclick="order('${p.name}')">Выбрать</button>
+      <button class="action" onclick="order('${p.key}',this)">Выбрать</button>
     </div>
   </div>
 `).join('');
 
 function openPage(id, button) {
+  if (id === 'balance') id = 'balancePage';
+
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+
   document.querySelectorAll('.nav').forEach(n => n.classList.remove('selected'));
   if (button) button.classList.add('selected');
+
   if (tg?.BackButton) {
-    if (id === 'home') tg.BackButton.hide();
-    else {
+    tg.BackButton.offClick(backToHome);
+
+    if (id === 'home') {
+      tg.BackButton.hide();
+    } else {
       tg.BackButton.show();
-      tg.BackButton.onClick(() => openPage('home'));
+      tg.BackButton.onClick(backToHome);
     }
   }
+
   window.scrollTo(0,0);
+}
+
+function backToHome() {
+  openPage('home');
 }
 
 function notify(message) {
   const el = document.getElementById('notice');
   el.textContent = message;
   el.style.display = 'block';
-  setTimeout(() => el.style.display = 'none', 2800);
+
+  clearTimeout(window.noticeTimer);
+  window.noticeTimer = setTimeout(() => {
+    el.style.display = 'none';
+  }, 3500);
 }
 
-function order(name) {
-  notify('Выбран тариф «' + name + '». Подключение оформления заказа будет следующим этапом.');
+async function loadProfile() {
+  if (!tg || !tg.initData) return;
+
+  try {
+    const response = await fetch(API_BASE_URL + '/api/me', {
+      method:'GET',
+      headers:{
+        'Authorization':'tma ' + tg.initData
+      }
+    });
+
+    if (!response.ok) return;
+
+    const data = await response.json();
+
+    if (data.balance !== undefined) {
+      const balance = Number(data.balance);
+      document.getElementById('balance').textContent = balance + ' ₽';
+      document.getElementById('balanceDetails').textContent = balance + ' ₽';
+    }
+  } catch (error) {
+    console.error('Ошибка загрузки профиля:', error);
+  }
 }
+
+async function order(planKey, button) {
+  if (!tg || !tg.initData) {
+    notify('Открой магазин через Telegram-бота.');
+    return;
+  }
+
+  if (button) button.disabled = true;
+
+  notify('Создаём заказ...');
+
+  try {
+    const response = await fetch(API_BASE_URL + '/api/orders', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'tma ' + tg.initData
+      },
+      body:JSON.stringify({
+        plan_key:planKey
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.detail || data.message || 'Ошибка оформления заказа');
+    }
+
+    if (data.order_id !== undefined) {
+      notify('Заказ №' + data.order_id + ' создан! Проверь сообщения от бота.');
+    } else {
+      notify('Заказ отправлен! Проверь сообщения от бота.');
+    }
+
+  } catch (error) {
+    console.error('Ошибка оформления заказа:', error);
+    notify('Не удалось создать заказ: ' + error.message);
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+loadProfile();
 
 </script>
 </body>
 </html>
+```
