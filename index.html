@@ -141,13 +141,16 @@
       box.classList.add('show');
     }
 
-    async function createOrder(planKey, button) {
-      if (!tg || !tg.initData) {
-        showMessage(
-          'Для оформления заказа откройте магазин через Telegram.'
-        );
+            if (!data.confirmation_url) {
+          throw new Error('Не получена ссылка на оплату. Обратитесь в поддержку.');
+        }
+
+        if (tg.HapticFeedback) {
+          tg.HapticFeedback.notificationOccurred('success');
+        }
+
+        window.location.assign(data.confirmation_url);
         return;
-      }
 
       const originalText = button.textContent;
       button.disabled = true;
