@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#10091e">
   <title>AMNEZIAWG — Магазин</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <style>
     :root {
       color-scheme: dark;
@@ -16,7 +17,9 @@
       --accent: #a879ff;
       --border: rgba(201,169,255,.18);
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -25,52 +28,105 @@
       color: var(--text);
       font-family: Arial,Helvetica,sans-serif;
     }
+
     .wrap { max-width: 520px; margin: 0 auto; }
     header { text-align: center; margin: 12px 0 26px; }
+
     .logo {
-      width: 66px; height: 66px; margin: 0 auto 15px;
-      display: grid; place-items: center; border-radius: 21px;
+      width: 66px;
+      height: 66px;
+      margin: 0 auto 15px;
+      display: grid;
+      place-items: center;
+      border-radius: 21px;
       background: linear-gradient(145deg,#bd91ff,#7041c5);
-      font-size: 27px; font-weight: 800;
+      font-size: 27px;
+      font-weight: 800;
     }
+
     h1 { margin: 0; font-size: 25px; letter-spacing: 2px; }
-    .subtitle { color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
     h2 { margin-bottom: 14px; font-size: 18px; }
     .plans { display: grid; gap: 12px; }
+
     .plan {
-      padding: 18px; border: 1px solid var(--border);
+      padding: 18px;
+      border: 1px solid var(--border);
       border-radius: 18px;
       background: linear-gradient(145deg,#2a1c42,#19102b);
     }
+
     .plan-top {
-      display: flex; justify-content: space-between;
-      align-items: center; gap: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
     }
+
     .period { font-size: 17px; font-weight: 700; }
-    .price { font-size: 23px; font-weight: 800; white-space: nowrap; }
-    .details { margin: 7px 0 14px; color: var(--muted); font-size: 13px; }
+
+    .price {
+      font-size: 23px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .details {
+      margin: 7px 0 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     button {
-      width: 100%; border: 0; border-radius: 12px;
-      padding: 13px 16px; color: white;
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 16px;
+      color: white;
       background: linear-gradient(100deg,#6e42c7,#a879ff);
-      font-size: 15px; font-weight: 700; cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
     }
-    button:disabled { opacity: .6; cursor: wait; }
+
+    button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
     .note {
-      margin: 18px 4px 0; text-align: center;
-      color: var(--muted); font-size: 12px; line-height: 1.5;
+      margin: 18px 4px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
     }
+
     #message {
-      display: none; margin-top: 16px; padding: 13px 15px;
-      border-radius: 12px; background: #24183b;
+      display: none;
+      margin-top: 16px;
+      padding: 13px 15px;
+      border-radius: 12px;
+      background: #24183b;
       border: 1px solid var(--border);
-      font-size: 14px; line-height: 1.45; text-align: center;
+      font-size: 14px;
+      line-height: 1.45;
+      text-align: center;
     }
+
     #message.show { display: block; }
   </style>
 </head>
+
 <body>
   <main class="wrap">
+
     <header>
       <div class="logo">A</div>
       <h1>AMNEZIAWG</h1>
@@ -82,14 +138,18 @@
 
     <section>
       <h2>Тарифы доступа</h2>
+
       <div class="plans">
+
         <article class="plan">
           <div class="plan-top">
             <span class="period">1 месяц</span>
             <span class="price">100 ₽</span>
           </div>
           <p class="details">Доступ на 30 дней</p>
-          <button onclick="createOrder('m1',this)">Выбрать тариф</button>
+          <button onclick="createOrder('m1',this)">
+            Выбрать тариф
+          </button>
         </article>
 
         <article class="plan">
@@ -98,7 +158,9 @@
             <span class="price">270 ₽</span>
           </div>
           <p class="details">Доступ на 90 дней</p>
-          <button onclick="createOrder('m3',this)">Выбрать тариф</button>
+          <button onclick="createOrder('m3',this)">
+            Выбрать тариф
+          </button>
         </article>
 
         <article class="plan">
@@ -107,7 +169,9 @@
             <span class="price">500 ₽</span>
           </div>
           <p class="details">Доступ на 180 дней</p>
-          <button onclick="createOrder('m6',this)">Выбрать тариф</button>
+          <button onclick="createOrder('m6',this)">
+            Выбрать тариф
+          </button>
         </article>
 
         <article class="plan">
@@ -116,12 +180,18 @@
             <span class="price">900 ₽</span>
           </div>
           <p class="details">Доступ на 365 дней</p>
-          <button onclick="createOrder('y1',this)">Выбрать тариф</button>
+          <button onclick="createOrder('y1',this)">
+            Выбрать тариф
+          </button>
         </article>
+
       </div>
 
       <div id="message" role="status" aria-live="polite"></div>
-      <p class="note">Оформление доступа выполняется через Telegram.</p>
+
+      <p class="note">
+        Безопасная оплата через YooKassa.
+      </p>
     </section>
   </main>
 
@@ -146,6 +216,35 @@
       return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    // Открытие оплаты
+    function openPayment(paymentUrl) {
+      if (!paymentUrl) {
+        throw new Error('Ссылка оплаты отсутствует.');
+      }
+
+      let parsedUrl;
+
+      try {
+        parsedUrl = new URL(paymentUrl);
+      } catch (_) {
+        throw new Error('Некорректная ссылка оплаты.');
+      }
+
+      if (parsedUrl.protocol !== 'https:') {
+        throw new Error('Разрешены только защищённые HTTPS-ссылки.');
+      }
+
+      if (tg && typeof tg.openLink === 'function') {
+        tg.openLink(parsedUrl.href, {
+          try_instant_view: false
+        });
+        return;
+      }
+
+      window.location.href = parsedUrl.href;
+    }
+
+    // Проверка платежа после возврата
     async function checkPaymentAfterReturn() {
       const params = new URLSearchParams(window.location.search);
       const orderId = params.get('order_id');
@@ -180,6 +279,7 @@
           );
 
           let data = {};
+
           try {
             data = await response.json();
           } catch (_) {}
@@ -200,6 +300,7 @@
             if (tg.HapticFeedback) {
               tg.HapticFeedback.notificationOccurred('success');
             }
+
             return;
           }
 
@@ -229,6 +330,7 @@
       );
     }
 
+    // Создание заказа
     async function createOrder(planKey, button) {
       if (!tg || !tg.initData) {
         showMessage(
@@ -238,6 +340,7 @@
       }
 
       const originalText = button.textContent;
+
       button.disabled = true;
       button.textContent = 'Создаём заказ…';
 
@@ -248,10 +351,13 @@
             'Content-Type': 'application/json',
             'Authorization': `tma ${tg.initData}`
           },
-          body: JSON.stringify({ plan_key: planKey })
+          body: JSON.stringify({
+            plan_key: planKey
+          })
         });
 
         let data = {};
+
         try {
           data = await response.json();
         } catch (_) {}
@@ -274,9 +380,7 @@
           tg.HapticFeedback.notificationOccurred('success');
         }
 
-        // Открываем YooKassa во внешнем браузере.
-        tg.openLink(data.confirmation_url);
-        return;
+        openPayment(data.confirmation_url);
 
       } catch (error) {
         showMessage(
@@ -286,6 +390,7 @@
         if (tg?.HapticFeedback) {
           tg.HapticFeedback.notificationOccurred('error');
         }
+
       } finally {
         button.disabled = false;
         button.textContent = originalText;
