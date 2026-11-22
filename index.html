@@ -142,6 +142,93 @@
       box.classList.add('show');
     }
 
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function checkPaymentAfterReturn() {
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get('order_id');
+
+      if (!orderId) return;
+
+      if (!/^\d+$/.test(orderId)) {
+        showMessage('Некорректный номер заказа.');
+        return;
+      }
+
+      if (!tg || !tg.initData) {
+        showMessage(
+          'Заказ возвращён из оплаты. Откройте магазин через Telegram, чтобы проверить статус.'
+        );
+        return;
+      }
+
+      showMessage('Проверяем оплату YooKassa…');
+
+      for (let attempt = 0; attempt < 40; attempt++) {
+        try {
+          const response = await fetch(
+            `${API_URL}/api/payments/${encodeURIComponent(orderId)}`,
+            {
+              method: 'GET',
+              headers: {
+                'Authorization': `tma ${tg.initData}`
+              },
+              cache: 'no-store'
+            }
+          );
+
+          let data = {};
+          try {
+            data = await response.json();
+          } catch (_) {}
+
+          if (!response.ok) {
+            throw new Error(
+              typeof data.detail === 'string'
+                ? data.detail
+                : 'Не удалось проверить оплату.'
+            );
+          }
+
+          if (data.paid === true || data.status === 'succeeded') {
+            showMessage(
+              '✅ Оплата получена! Подписка активирована. Конфигурацию VPN можно получить у администратора.'
+            );
+
+            if (tg.HapticFeedback) {
+              tg.HapticFeedback.notificationOccurred('success');
+            }
+            return;
+          }
+
+          if (data.status === 'canceled') {
+            showMessage(
+              'Платёж отменён. Вы можете оформить новый заказ.'
+            );
+            return;
+          }
+
+          showMessage(
+            'Ожидаем подтверждение оплаты… Проверка ' +
+            (attempt + 1) + ' из 40.'
+          );
+
+        } catch (error) {
+          showMessage(
+            error.message || 'Ошибка проверки оплаты. Повторяем попытку…'
+          );
+        }
+
+        await delay(3000);
+      }
+
+      showMessage(
+        'Пока нет подтверждения оплаты. Если деньги списаны, не оплачивайте повторно — обратитесь к администратору для проверки.'
+      );
+    }
+
     async function createOrder(planKey, button) {
       if (!tg || !tg.initData) {
         showMessage(
@@ -191,7 +278,9 @@
         return;
 
       } catch (error) {
-        showMessage(error.message || 'Ошибка соединения. Попробуйте позже.');
+        showMessage(
+          error.message || 'Ошибка соединения. Попробуйте позже.'
+        );
 
         if (tg?.HapticFeedback) {
           tg.HapticFeedback.notificationOccurred('error');
@@ -201,6 +290,8 @@
         button.textContent = originalText;
       }
     }
+
+    checkPaymentAfterReturn();
   </script>
 </body>
 </html>
