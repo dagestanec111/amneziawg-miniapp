@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -126,10 +126,10 @@
   </main>
 
   <script>
-const API_URL =
+    const API_URL =
       'https://sheet-introducing-anyway-detroit.trycloudflare.com';
 
-const tg = window.Telegram?.WebApp || null;
+    const tg = window.Telegram?.WebApp || null;
 
     if (tg) {
       tg.ready();
@@ -274,7 +274,8 @@ const tg = window.Telegram?.WebApp || null;
           tg.HapticFeedback.notificationOccurred('success');
         }
 
-        window.location.assign(data.confirmation_url);
+        // Открываем YooKassa во внешнем браузере.
+        tg.openLink(data.confirmation_url);
         return;
 
       } catch (error) {
@@ -295,3 +296,4 @@ const tg = window.Telegram?.WebApp || null;
   </script>
 </body>
 </html>
+```
