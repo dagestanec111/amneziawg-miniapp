@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -141,16 +142,13 @@
       box.classList.add('show');
     }
 
-            if (!data.confirmation_url) {
-          throw new Error('Не получена ссылка на оплату. Обратитесь в поддержку.');
-        }
-
-        if (tg.HapticFeedback) {
-          tg.HapticFeedback.notificationOccurred('success');
-        }
-
-        window.location.assign(data.confirmation_url);
+    async function createOrder(planKey, button) {
+      if (!tg || !tg.initData) {
+        showMessage(
+          'Для оформления заказа откройте магазин через Telegram.'
+        );
         return;
+      }
 
       const originalText = button.textContent;
       button.disabled = true;
@@ -179,14 +177,19 @@
           );
         }
 
-        showMessage(
-          data.message ||
-          'Заказ создан. Проверьте сообщения от Telegram-бота.'
-        );
+        if (!data.confirmation_url) {
+          throw new Error(
+            'Не получена ссылка на оплату. Обратитесь в поддержку.'
+          );
+        }
 
         if (tg.HapticFeedback) {
           tg.HapticFeedback.notificationOccurred('success');
         }
+
+        window.location.assign(data.confirmation_url);
+        return;
+
       } catch (error) {
         showMessage(error.message || 'Ошибка соединения. Попробуйте позже.');
 
